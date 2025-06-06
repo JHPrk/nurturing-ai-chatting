@@ -46,6 +46,7 @@ cp .env.example .env.local
 
 # .env.local 파일 편집
 GEMINI_API_KEY=여기에_발급받은_Gemini_API_키_입력
+NEXT_PUBLIC_ACCESS_CODE=8자리_영어_숫자_특수문자
 ```
 
 ### 4. 개발 서버 실행
@@ -214,6 +215,15 @@ MIT License
 
 ## 🤝 기여
 
+### (Korean Version)
+1. 프로젝트를 포크하세요
+2. 기능 브랜치를 생성하세요 (git checkout -b feature/AmazingFeature)
+3. 변경사항을 커밋하세요 (git commit -m 'Add some AmazingFeature')
+4. 브랜치에 푸시하세요 (git push origin feature/AmazingFeature)
+5. 풀 리퀘스트를 열어주세요
+
+
+### (English Version)
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
@@ -227,159 +237,3 @@ MIT License
 ---
 
 **Made with ❤️ for 육아맘/육아빠들**
-
-## 🔐 인증 시스템
-
-이 애플리케이션은 무분별한 사용을 방지하기 위해 접근 코드 인증 시스템을 포함하고 있습니다.
-
-### 접근 코드 설정
-
-환경변수에서 접근 코드를 설정할 수 있습니다:
-
-```bash
-# .env.local 파일에 추가
-NEXT_PUBLIC_ACCESS_CODE=Your8Ch@r  # 8자 영어+숫자+특수문자
-```
-
-### 인증 기능
-
-- **접근 제한**: 메인 페이지 진입 시 접근 코드 입력 필요
-- **세션 관리**: 인증 후 10분간 유효한 세션 생성
-- **자동 만료**: 세션 만료 시 자동 로그아웃
-- **API 보호**: 모든 API 호출에 인증 토큰 필요
-
-### 보안 특징
-
-- 클라이언트 사이드 세션 저장 (localStorage)
-- 실시간 세션 만료 타이머
-- API 레벨 인증 검증
-- 세션 만료 시 자동 리다이렉트
-
-## 🚀 빠른 시작
-
-### 1. 의존성 설치
-
-```bash
-npm install
-```
-
-### 2. 환경변수 설정
-
-`.env.local` 파일을 생성하고 다음 내용을 추가하세요:
-
-```bash
-# Gemini API 키
-GEMINI_API_KEY=your_gemini_api_key_here
-
-# 접근 코드 (8자 영어+숫자+특수문자)
-NEXT_PUBLIC_ACCESS_CODE=your_secret_here
-```
-
-### 3. 개발 서버 실행
-
-```bash
-npm run dev
-```
-
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열고 접근 코드를 입력하세요.
-
-## 🧪 테스트
-
-### 전체 테스트 실행
-
-```bash
-npm run test
-```
-
-### 인증 시스템 테스트
-
-```bash
-# 인증 로직 유닛 테스트
-npm run test tests/unit/lib/auth.test.ts
-
-# 인증 컴포넌트 통합 테스트
-npm run test tests/integration/AuthGate.test.tsx
-
-# API 인증 테스트
-npm run test tests/unit/api/auth-api.test.ts
-```
-
-## 📁 프로젝트 구조
-
-```
-├── components/
-│   ├── AuthGate.tsx          # 인증 게이트 컴포넌트
-│   └── ...
-├── lib/
-│   ├── auth.ts               # 인증 관리 클래스
-│   └── ...
-├── app/
-│   ├── api/chat/route.ts     # 인증이 적용된 API 라우트
-│   └── page.tsx              # AuthGate로 보호된 메인 페이지
-└── tests/
-    ├── unit/lib/auth.test.ts           # 인증 로직 테스트
-    ├── integration/AuthGate.test.tsx   # 인증 UI 테스트
-    └── unit/api/auth-api.test.ts       # API 인증 테스트
-```
-
-## 🔧 기술 스택
-
-- **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
-- **Backend**: Vercel Edge Functions
-- **AI**: Google Gemini API
-- **인증**: 클라이언트 사이드 세션 관리
-- **테스트**: Vitest, React Testing Library
-
-## 🛡️ 보안 고려사항
-
-### 현재 구현 (MVP)
-- 클라이언트 사이드 접근 코드 검증
-- localStorage 기반 세션 관리
-- API 레벨 Bearer 토큰 검증
-
-### 향후 개선 사항
-- 서버 사이드 세션 검증
-- JWT 토큰 기반 인증
-- Redis 기반 세션 저장소
-- 레이트 리미팅
-
-## 📝 사용법
-
-1. **접근**: 브라우저에서 애플리케이션에 접속
-2. **인증**: 설정된 접근 코드 입력
-3. **채팅**: 육아 관련 질문 입력
-4. **세션**: 10분 후 자동 만료 (우상단에서 남은 시간 확인)
-5. **로그아웃**: 수동 로그아웃 또는 자동 만료
-
-## 🚀 배포
-
-### Vercel 배포
-
-1. Vercel에 프로젝트 연결
-2. 환경변수 설정:
-   - `GEMINI_API_KEY`: Gemini API 키
-   - `NEXT_PUBLIC_ACCESS_CODE`: 접근 코드
-3. 자동 배포 완료
-
-### 환경변수 보안
-
-- `GEMINI_API_KEY`: 서버 사이드 전용 (Vercel 환경변수)
-- `NEXT_PUBLIC_ACCESS_CODE`: 클라이언트 노출 (브라우저에서 접근 가능)
-
-⚠️ **주의**: `NEXT_PUBLIC_` 접두사가 붙은 환경변수는 브라우저에 노출됩니다. 민감한 정보는 포함하지 마세요.
-
-## 🤝 기여
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 라이선스
-
-This project is licensed under the MIT License.
-
----
-
-**개발자**: TDD 방식으로 구현된 안전한 육아 상담 챗봇 🍼✨
