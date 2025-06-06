@@ -28,8 +28,8 @@
 
 ### 1. 프로젝트 클론
 ```bash
-git clone https://github.com/사용자명/imo-chatting.git
-cd imo-chatting
+git clone https://github.com/JHPrk/nurturing-ai-chatting.git
+cd nurturing-ai-chatting
 ```
 
 ### 2. 의존성 설치
@@ -63,6 +63,7 @@ npm run dev
 2. GitHub 레포지토리 연결
 3. 환경변수 설정:
    - `GEMINI_API_KEY`: Gemini API 키
+   - `NEXT_PUBLIC_ACCESS_CODE`: 서버 접근 코드
 4. 자동 배포 완료
 
 ### 환경변수 설정
@@ -70,12 +71,13 @@ npm run dev
 # Production 환경
 GEMINI_API_KEY=실제_API_키
 NODE_ENV=production
+NEXT_PUBLIC_ACCESS_CODE=8자리_영어_숫자_특수문자
 ```
 
 ## 📁 프로젝트 구조
 
 ```
-imo-chatting/
+nurturing-ai-chatting/
 ├── app/                    # Next.js App Router
 │   ├── page.tsx           # 메인 채팅 페이지
 │   ├── layout.tsx         # 전역 레이아웃
