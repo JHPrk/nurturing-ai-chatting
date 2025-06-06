@@ -72,6 +72,9 @@ npm run dev
 GEMINI_API_KEY=실제_API_키
 NODE_ENV=production
 NEXT_PUBLIC_ACCESS_CODE=8자리_영어_숫자_특수문자
+
+# 로깅 설정 (선택사항)
+LOG_LEVEL=error  # debug, info, warn, error, none
 ```
 
 ## 📁 프로젝트 구조
@@ -104,6 +107,10 @@ npm run test:coverage
 
 # E2E 테스트
 npm run test:e2e
+
+# 로거 테스트
+npm run test:logger        # 개발 환경
+npm run test:logger:prod   # 프로덕션 환경
 ```
 
 ## 📊 API 명세
@@ -127,6 +134,30 @@ npm run test:e2e
 {
   "text": "수면훈련은 아기의 월령에 따라 달라져요 😊..."
 }
+```
+
+## 📝 로깅 설정
+
+프로덕션 환경에서는 console.log가 자동으로 비활성화되며, 에러만 출력됩니다.
+
+### 로그 레벨 제어
+```bash
+# 환경변수로 로그 레벨 설정
+LOG_LEVEL=debug   # 모든 로그 출력 (개발용)
+LOG_LEVEL=info    # info, warn, error 출력
+LOG_LEVEL=warn    # warn, error 출력
+LOG_LEVEL=error   # error만 출력 (프로덕션 기본값)
+LOG_LEVEL=none    # 모든 로그 비활성화
+```
+
+### 기본 동작
+- **Development**: 모든 로그 레벨 출력 (debug, info, warn, error)
+- **Production**: 에러만 출력 (error)
+
+### 로그 형식
+```
+[2024-01-15T10:30:45.123Z][ERROR] API 호출 실패: Network timeout
+[2024-01-15T10:30:45.124Z][DEBUG] 히스토리 슬라이싱 완료: 5개 → 3개
 ```
 
 ## 🔒 보안

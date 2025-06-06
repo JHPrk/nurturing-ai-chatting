@@ -15,6 +15,8 @@
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "test:e2e": "playwright test",
+    "test:logger": "npx tsx scripts/test-logger.ts",
+    "test:logger:prod": "NODE_ENV=production npx tsx scripts/test-logger.ts",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel"
   },

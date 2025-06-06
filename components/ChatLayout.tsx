@@ -7,6 +7,7 @@ import PromptTemplates from './PromptTemplates'
 import type { Message } from '@lib/types'
 import { UI_CONSTANTS, ERROR_MESSAGES } from '@lib/constants'
 import { convertMarkdownToHtml } from '@lib/markdownUtils'
+import { logger } from '@lib/logger'
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -56,7 +57,7 @@ export default function ChatLayout() {
       setMessages(prev => [...prev, assistantMessage])
 
     } catch (error) {
-      console.error(error)
+      logger.error('Chat API 호출 실패:', error)
       const errorMessage: Message = {
         role: 'assistant',
         content: ERROR_MESSAGES.GENERIC_ERROR

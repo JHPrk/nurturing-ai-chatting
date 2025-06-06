@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ChatService } from "@lib/chatHandler";
+import { logger } from "@lib/logger";
 
 export const runtime = "edge";
 export const preferredRegion = 'icn1'; // 서울 리전 (한국 사용자용)
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
     // 4. 환경변수 확인
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("[ERROR] GEMINI_API_KEY not configured");
+      logger.error("GEMINI_API_KEY not configured");
       return NextResponse.json(
         { error: "서버 설정 오류입니다." },
         { status: 500 }
@@ -65,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     // 6. 로깅
     const responseTime = Date.now() - startTime;
-    console.log(`[${new Date().toISOString()}] session=${sessionId || "anonymous"} msgLen=${message.length} responseTime=${responseTime}ms status=success`);
+    logger.info(`session=${sessionId || "anonymous"} msgLen=${message.length} responseTime=${responseTime}ms status=success`);
 
     // 7. 성공 응답
     return NextResponse.json({ text });
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     // 8. 오류 처리
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error(`[${new Date().toISOString()}] status=error error=${errorMessage}`);
+    logger.error(`status=error error=${errorMessage}`);
     
     if (errorMessage.includes("429")) {
       return NextResponse.json(

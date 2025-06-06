@@ -1,4 +1,5 @@
 import type { AuthSession } from "./types";
+import { logger } from './logger';
 
 /**
  * 인증 관리 클래스
@@ -40,7 +41,7 @@ export class AuthManager {
     try {
       localStorage.setItem(this.sessionKey, JSON.stringify(session));
     } catch (error) {
-      console.error("세션 저장 실패:", error);
+      logger.error("세션 저장 실패:", error);
     }
   }
 
@@ -71,7 +72,7 @@ export class AuthManager {
 
       return true;
     } catch (error) {
-      console.error("세션 확인 실패:", error);
+      logger.error("세션 확인 실패:", error);
       return false;
     }
   }
@@ -83,7 +84,7 @@ export class AuthManager {
     try {
       localStorage.removeItem(this.sessionKey);
     } catch (error) {
-      console.error("세션 제거 실패:", error);
+      logger.error("세션 제거 실패:", error);
     }
   }
 
@@ -104,7 +105,7 @@ export class AuthManager {
       
       return remaining > 0 ? remaining : 0;
     } catch (error) {
-      console.error("만료 시간 계산 실패:", error);
+      logger.error("만료 시간 계산 실패:", error);
       return 0;
     }
   }
