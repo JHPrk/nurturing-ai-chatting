@@ -23,6 +23,9 @@
   "dependencies": {
     "@fontsource/noto-sans-kr": "^5.2.5",
     "@google/generative-ai": "^0.17.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "jose": "^6.0.11",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
