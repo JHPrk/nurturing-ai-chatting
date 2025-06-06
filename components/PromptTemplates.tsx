@@ -1,4 +1,4 @@
-import { PROMPT_TEMPLATES, UI_CONSTANTS } from '@lib/constants';
+import { PROMPT_TEMPLATES } from '@lib/constants';
 
 interface PromptTemplatesProps {
   onSelectTemplate: (template: string) => void;

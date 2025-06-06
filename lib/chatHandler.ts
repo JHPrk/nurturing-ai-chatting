@@ -124,12 +124,13 @@ export class ChatService {
       
       // Gemini API 특정 에러 정보 추출
       if (typeof error === 'object' && error !== null) {
-        const apiError = error as any;
-        if (apiError.status) {
-          console.error(`[ChatService Error] HTTP 상태 코드: ${apiError.status}`);
+        // 타입 가드를 사용한 안전한 프로퍼티 접근
+        if (this.hasProperty(error, 'status') && typeof error.status === 'number') {
+          console.error(`[ChatService Error] HTTP 상태 코드: ${error.status}`);
         }
-        if (apiError.errorDetails) {
-          console.error(`[ChatService Error] API 에러 상세:`, apiError.errorDetails);
+        
+        if (this.hasProperty(error, 'errorDetails')) {
+          console.error(`[ChatService Error] API 에러 상세:`, error.errorDetails);
         }
       }
       
@@ -151,5 +152,13 @@ export class ChatService {
     const sliced = history.slice(-MAX_MESSAGES);
     console.log(`[ChatService] 히스토리 슬라이싱 수행: ${history.length}개 → ${sliced.length}개 (${history.length - sliced.length}개 제거)`);
     return sliced;
+  }
+
+  // 타입 가드 헬퍼 메서드
+  private hasProperty<K extends string>(
+    obj: unknown,
+    key: K
+  ): obj is Record<K, unknown> {
+    return typeof obj === 'object' && obj !== null && key in obj;
   }
 } 
