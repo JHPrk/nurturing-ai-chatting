@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, ReactNode } from "react";
+import { track } from '@vercel/analytics';
 import { AuthManager } from "@lib/auth";
 
 interface AuthGateProps {
@@ -75,13 +76,30 @@ export function AuthGate({ children }: AuthGateProps) {
       // 인증 성공 후 즉시 상태 업데이트
       setIsAuthenticated(true);
       setTimeRemaining(authManager.getTimeUntilExpiry());
+      
+      // 인증 성공 이벤트 추적
+      track('auth_success', {
+        session_duration: 600000 // 10분 (밀리초)
+      });
     } else {
       setError("올바르지 않은 접근 코드입니다");
+      
+      // 인증 실패 이벤트 추적
+      track('auth_failed', {
+        attempt_timestamp: Date.now()
+      });
     }
   };
 
   // 로그아웃 핸들러
   const handleLogout = () => {
+    // 로그아웃 이벤트 추적 (세션 길이 계산)
+    const sessionDuration = 600000 - timeRemaining; // 실제 사용 시간
+    track('auth_logout', {
+      session_duration: sessionDuration,
+      remaining_time: timeRemaining
+    });
+    
     authManager.clearSession();
     setIsAuthenticated(false);
     setTimeRemaining(0);

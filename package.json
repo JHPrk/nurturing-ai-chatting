@@ -23,6 +23,7 @@
   "dependencies": {
     "@fontsource/noto-sans-kr": "^5.2.5",
     "@google/generative-ai": "^0.17.2",
+    "@vercel/analytics": "^1.5.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

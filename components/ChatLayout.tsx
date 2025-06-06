@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { track } from '@vercel/analytics'
 import ChatContainer from './ChatContainer'
 import InputBar from './InputBar'
 import PromptTemplates from './PromptTemplates'
@@ -31,6 +32,13 @@ export default function ChatLayout() {
     setShowTemplates(false)
     setIsLoading(true)
 
+    // Analytics 이벤트 추적
+    track('chat_message_sent', {
+      message_length: message.length,
+      is_first_message: messages.length === 0,
+      conversation_turn: Math.floor((messages.length + 1) / 2) + 1
+    })
+
     try {
       // 세션 토큰 생성 (간단한 인증용)
       const sessionToken = localStorage.getItem('auth_session') || 'anonymous';
@@ -56,6 +64,12 @@ export default function ChatLayout() {
       const assistantMessage: Message = { role: 'assistant', content: convertedText }
       setMessages(prev => [...prev, assistantMessage])
 
+      // 성공적인 응답 이벤트 추적
+      track('chat_response_received', {
+        response_length: text.length,
+        conversation_turn: Math.floor((messages.length + 2) / 2) + 1
+      })
+
     } catch (error) {
       logger.error('Chat API 호출 실패:', error)
       const errorMessage: Message = {
@@ -63,12 +77,22 @@ export default function ChatLayout() {
         content: ERROR_MESSAGES.GENERIC_ERROR
       }
       setMessages(prev => [...prev, errorMessage])
+
+      // 에러 이벤트 추적
+      track('chat_error', {
+        error_type: 'api_call_failed',
+        message_length: message.length
+      })
     } finally {
       setIsLoading(false)
     }
   }
   
   const handleSelectTemplate = (template: string) => {
+    // 템플릿 선택 이벤트 추적
+    track('template_selected', {
+      template: template.substring(0, 50) // 처음 50자만 추적
+    })
     handleSendMessage(template)
   }
 
